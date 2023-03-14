@@ -37,10 +37,6 @@ public class HomeController2 {
     @GetMapping("/home/removePerson")
     @ResponseBody
     public String removePerson(int id) {
-        // person -> person.getId() == id
-        // 위 함수가 참인 엘리먼트(요소) 경우가 존재하면, 해당 요소를 삭제한다.
-        // removed 에는 삭제수행여부가 저장된다.
-        // 조건에 맞는걸 찾았고 삭제까지 되었다면 true, 아니면 false
         boolean removed = people.removeIf(person -> person.getId() == id);
 
         if (removed == false) {
