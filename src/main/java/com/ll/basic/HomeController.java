@@ -1,6 +1,6 @@
 package com.ll.basic;
-import com.ll.basic.base.boundedContext.member.entity.Member;
-import com.ll.basic.base.boundedContext.member.service.MemberService;
+import com.ll.basic.boundedContext.member.entity.Member;
+import com.ll.basic.boundedContext.member.service.MemberService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,8 +17,7 @@ import java.util.*;
 // @Controller 의 의미
 // 개발자가 스프링부트에게 말한다.
 // 아래 있는 HomeController 는 컨트롤러이다.
-import java.io.IOException;
-import java.util.*;
+
 
 @Controller
 public class HomeController {

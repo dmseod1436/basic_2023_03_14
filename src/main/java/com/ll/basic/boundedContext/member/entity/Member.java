@@ -1,4 +1,4 @@
-package com.ll.basic.base.boundedContext.member.entity;
+package com.ll.basic.boundedContext.member.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

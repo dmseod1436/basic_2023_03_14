@@ -1,10 +1,9 @@
-package com.ll.basic.base.boundedContext.member.service;
+package com.ll.basic.boundedContext.member.service;
 
 import com.ll.basic.base.logData.LogData;
-import com.ll.basic.base.boundedContext.member.entity.Member;
-import com.ll.basic.base.boundedContext.member.repository.MemberRepository;
+import com.ll.basic.boundedContext.member.entity.Member;
+import com.ll.basic.boundedContext.member.repository.MemberRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 // @Component : 아래 클래스의 객체는 Ioc 컨테이너에 의해 생사소멸 관리된다.
