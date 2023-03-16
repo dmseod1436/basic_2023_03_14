@@ -4,9 +4,12 @@ import com.ll.basic.base.rq.Rq;
 import com.ll.basic.base.logData.LogData;
 import com.ll.basic.boundedContext.member.entity.Member;
 import com.ll.basic.boundedContext.member.service.MemberService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
@@ -15,8 +18,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class MemberController {
     private final MemberService memberService;
     private final Rq rq;
-
     @GetMapping("/member/login")
+    public String showLogin(){
+        return "usr/member/login";
+    }
+
+    @PostMapping("/member/login")
     @ResponseBody
     public LogData login(String username, String password) {
         if (username == null || username.trim().length() == 0) {
@@ -46,15 +53,13 @@ public class MemberController {
         }
 
         @GetMapping("/member/me")
-        @ResponseBody
+        public String showMe(Model model){
+            long loginedMemberId = rq.getLoginedMemberId();
 
-        public LogData showMe() {
-            long loginedMemberId = rq.getCookieAsLong("loginedMemberId", 0);
-
-            boolean isLogined = loginedMemberId > 0;
-            if (isLogined == false)
-                return LogData.of("F-1", "로그인 후 이용해주세요.");
             Member member = memberService.findById(loginedMemberId);
-            return LogData.of("S-1", "당신의 username(은)는 %s 입니다.".formatted(member.getUsername()));
+
+            model.addAttribute("member", member);
+
+            return "usr/member/me";
         }
 }
