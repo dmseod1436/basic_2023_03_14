@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import java.io.IOException;
 import java.util.*;
-// @Controller 의 의미
-// 개발자가 스프링부트에게 말한다.
-// 아래 있는 HomeController 는 컨트롤러이다.
+
 
 
 @Controller

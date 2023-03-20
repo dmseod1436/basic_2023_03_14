@@ -18,8 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class MemberController {
     private final MemberService memberService;
     private final Rq rq;
+
     @GetMapping("/member/login")
-    public String showLogin(){
+    public String showLogin() {
         return "usr/member/login";
     }
 
@@ -29,37 +30,48 @@ public class MemberController {
         if (username == null || username.trim().length() == 0) {
             return LogData.of("F-3", "username(을)를 입력해주세요.");
         }
+
         if (password == null || password.trim().length() == 0) {
             return LogData.of("F-4", "password(을)를 입력해주세요.");
         }
 
-        LogData rsData = memberService.tryLogin(username, password);
+        LogData logData = memberService.tryLogin(username, password);
 
-        if (rsData.isSuccess()) {
-                Member member = (Member) rsData.getData();
-                rq.setCookie("loginedMemberId", member.getId());
-            }
-            return rsData;
-        }
-        @GetMapping("/member/logout")
-        @ResponseBody
-        public LogData logout() {
-            boolean cookieRemoved = rq.removeCookie("loginedMemberId");
-
-            if (cookieRemoved == false) {
-                return LogData.of("S-2", "이미 로그아웃 상태입니다.");
-            }
-            return LogData.of("S-1", "로그아웃 되었습니다.");
+        if (logData.isSuccess()) {
+            Member member = (Member) logData.getData();
+            rq.setSession("loginedMemberId", member.getId());
         }
 
-        @GetMapping("/member/me")
-        public String showMe(Model model){
-            long loginedMemberId = rq.getLoginedMemberId();
+        return logData;
+    }
 
-            Member member = memberService.findById(loginedMemberId);
+    @GetMapping("/member/logout")
+    @ResponseBody
+    public LogData logout() {
+        boolean cookieRemoved = rq.removeSession("loginedMemberId");
 
-            model.addAttribute("member", member);
-
-            return "usr/member/me";
+        if (cookieRemoved == false) {
+            return LogData.of("S-2", "이미 로그아웃 상태입니다.");
         }
+
+        return LogData.of("S-1", "로그아웃 되었습니다.");
+    }
+
+    @GetMapping("/member/me")
+    public String showMe(Model model) {
+        long loginedMemberId = rq.getLoginedMemberId();
+
+        Member member = memberService.findById(loginedMemberId);
+
+        model.addAttribute("member", member);
+
+        return "usr/member/me";
+    }
+
+    // 디버깅용 함수
+    @GetMapping("/member/session")
+    @ResponseBody
+    public String showSession() {
+        return rq.getSessionDebugContents().replaceAll("\n", "<br>");
+    }
 }
